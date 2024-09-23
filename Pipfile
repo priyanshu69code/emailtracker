@@ -9,6 +9,9 @@ djangorestframework = "*"
 markdown = "*"
 django-filter = "*"
 requests = "*"
+pillow = "*"
+django-ckeditor-5 = "*"
+django-ckeditor = "*"
 
 [dev-packages]
 

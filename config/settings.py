@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-+g^!62crs05ufd(1etg8kpbjc937$p^t1ocd2&@*#hu*%76j@@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'user',
     'emailservice',
     'tracker',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,16 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'config.urls'
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': '100%',
+    },
+}
+
 
 TEMPLATES = [
     {
@@ -126,6 +137,10 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Default primary key field type

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Update Campain{% endblock title %}
+
+{% block content %}
+
+{% include 'utils/sidebar.html' %}
+
+<main id="main" class="main">
+
+    <div class="container">
+        <div class="row">
+          <!-- Left Column (Form Section) -->
+          <div class="col-lg-8 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Campaign Details</h5>
+
+                {{ form.media }}
+
+                <!-- Form Fields for Campaign Name, Subject, Email List -->
+                <form method="POST">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="name" class="form-label">Campaign Name</label>
+                    {{ form.name }}
+                  </div>
+                  <div class="mb-3">
+                    <label for="subject" class="form-label">Email Subject</label>
+                    {{ form.subject }}
+                  </div>
+                  <div class="mb-3">
+                    <label for="email_list" class="form-label">Email List</label>
+                    {{ form.email_list }}
+                  </div>
+
+                  <!-- CKEditor Section for Email Body -->
+                  <div class="mb-3">
+                    <label for="email_body" class="form-label">Email Body</label>
+                    {{ form.body }}  <!-- Assuming form.body is the CKEditor field -->
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column (Email Stats Section) for larger screens -->
+          <div class="col-lg-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Campaign Stats</h5>
+
+                <!-- Display number of email opens -->
+                <div class="mb-3">
+                  <strong>Total Email Opens:</strong> {{ total_email_opens }}
+                </div>
+
+                <!-- Display top 5 regions where emails were opened -->
+                <div class="mb-3">
+                  <strong>Top 5 Regions:</strong>
+                  <ul>
+                    {% for region, count in top_regions %}
+                      <li>{{ region }}: {{ count }} opens</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+
+                <!-- Display peak email open times -->
+                <div class="mb-3">
+                  <strong>Top Times When Emails Were Opened:</strong>
+                  <ul>
+                    {% for time, count in top_times %}
+                      <li>{{ time }}: {{ count }} opens</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+
+                <!-- Display least active times -->
+                <div class="mb-3">
+                  <strong>Least Active Time:</strong> {{ least_active_time }} ({{ least_active_time_count }} opens)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+</main><!-- End #main -->
+
+{% endblock content %}

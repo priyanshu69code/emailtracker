@@ -4,8 +4,10 @@ from django.db import models
 
 from django.db import models
 
+
 class EmailOpen(models.Model):
-    tracking_id = models.ForeignKey("emailservice.Email", on_delete=models.CASCADE)
+    tracking_id = models.ForeignKey(
+        "emailservice.EmailCampaign", on_delete=models.CASCADE)
     opened_at = models.DateTimeField(auto_now_add=True)
     ip_address = models.GenericIPAddressField(unique=True)
     user_agent = models.TextField()

@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Email, EmailList
+from .models import EmailCampaign, EmailList
 
-admin.site.register(Email)
+admin.site.register(EmailCampaign)
 admin.site.register(EmailList)
