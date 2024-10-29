@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Update Campain{% endblock title %}
+{% block title %}Update Campaign{% endblock title %}
 
 {% block content %}
 
@@ -34,12 +34,19 @@
                     <label for="email_list" class="form-label">Email List</label>
                     {{ form.email_list }}
                   </div>
+                  <div class="mb-3">
+                    <label for="email_list" class="form-label">Campining Email</label>
+                    {{ form.camping_email }}
+                  </div>
 
                   <!-- CKEditor Section for Email Body -->
                   <div class="mb-3">
                     <label for="email_body" class="form-label">Email Body</label>
                     {{ form.body }}  <!-- Assuming form.body is the CKEditor field -->
                   </div>
+
+                  <!-- Submit Button for Update -->
+                  <button type="submit" class="btn btn-success">Update</button>
                 </form>
               </div>
             </div>
@@ -82,10 +89,14 @@
                 </div>
               </div>
             </div>
+
+            <!-- Delete Button -->
+            <a href="{% url 'campain:list' %}" class="btn btn-secondary">Cancel</a>
+            <a href="{% url 'campain:delete' campain_key %}" class="btn btn-danger">Delete</a>
+
           </div>
         </div>
       </div>
-
 
 </main><!-- End #main -->
 

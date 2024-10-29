@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Email Result{% endblock title %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <section class="section email-result min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-8 d-flex flex-column align-items-center justify-content-center">
+
+                        <div class="d-flex justify-content-center py-4">
+                            <a href="{% url 'user:home' %}" class="logo d-flex align-items-center w-auto">
+                                <img src="{% static 'assets/img/logo.png' %}" alt="">
+                                <span class="d-none d-lg-block">NiceAdmin</span>
+                            </a>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-body text-center">
+                                <div class="pt-4 pb-2">
+                                    <h5 class="card-title text-center pb-0 fs-4">Email Status</h5>
+                                    <p class="text-center small">{{ result }}</p>
+                                </div>
+
+                                <a href="{% url 'mailmanager:send' %}" class="btn btn-primary mt-3">Send Another Email</a>
+                            </div>
+                        </div>
+
+                        <div class="credits">
+                            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock content %}

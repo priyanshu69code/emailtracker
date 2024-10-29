@@ -19,6 +19,7 @@ class EmailCampaign(models.Model):
     email_list = models.ForeignKey(
         'EmailList', on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey('user.User', on_delete=models.CASCADE)
+    camping_email = models.OneToOneField('mailmanager.EmailSetting', blank=True, related_name='camping_email',on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name

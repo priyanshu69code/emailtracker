@@ -8,18 +8,29 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CampaignDeleteForm
 
 # Create your views here.
+class CustomLoginRequiredMixin(LoginRequiredMixin):
+    def get_login_url(self):
+        return reverse_lazy('user:login')
 
 
-class CreateNewCampain(LoginRequiredMixin,CreateView):
+
+
+
+class CreateNewCampain(CustomLoginRequiredMixin,CreateView):
     template_name = 'emailservice/new_campain.html'
     form_class = EmailCampaignForm
     success_url = reverse_lazy('campain:email_list')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user  # Pass the user to the form
+        return kwargs
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-class EmailList(LoginRequiredMixin, ListView):
+class EmailList(CustomLoginRequiredMixin, ListView):
     model = EmailCampaign
     template_name = 'emailservice/email_list.html'
     context_object_name = 'email_campaigns'
@@ -32,7 +43,9 @@ class EmailList(LoginRequiredMixin, ListView):
         return context
 
 
-class EmailDetail(LoginRequiredMixin, DetailView):
+
+
+class EmailDetail(CustomLoginRequiredMixin, DetailView):
     model = EmailCampaign
     template_name = 'emailservice/email_detail.html'
     context_object_name = 'email_campaign'
@@ -43,15 +56,24 @@ class EmailDetail(LoginRequiredMixin, DetailView):
         context['fields'] = ["name", "subject", "number_of_opens", "email_list"]
         return context
 
-class EmailUpdate(LoginRequiredMixin, UpdateView):
+class EmailUpdate(CustomLoginRequiredMixin, UpdateView):
     model = EmailCampaign
     template_name = 'emailservice/update_campain.html'
     form_class = EmailCampaignForm
-    success_url = reverse_lazy('campain:email_list')
+
+    def get_success_url(self):
+        return reverse_lazy('campain:update', kwargs={'pk': self.object.pk})
+
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user  # Pass the user to the form
+        return kwargs
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -87,10 +109,10 @@ class EmailUpdate(LoginRequiredMixin, UpdateView):
 
 
 
-class EmailDelete(LoginRequiredMixin, DeleteView):
+class EmailDelete(CustomLoginRequiredMixin, DeleteView):
     model = EmailCampaign
     template_name = 'emailservice/delete_campain.html'
-    success_url = reverse_lazy('campain:email_list')
+    success_url = reverse_lazy('campain:list')
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()

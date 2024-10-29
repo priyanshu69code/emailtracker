@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Send Email{% endblock title %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <section class="section send-email min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-8 d-flex flex-column align-items-center justify-content-center">
+
+                        <div class="d-flex justify-content-center py-4">
+                            <a href="{% url 'user:home' %}" class="logo d-flex align-items-center w-auto">
+                                <img src="{% static 'assets/img/logo.png' %}" alt="">
+                                <span class="d-none d-lg-block">NiceAdmin</span>
+                            </a>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="pt-4 pb-2">
+                                    <h5 class="card-title text-center pb-0 fs-4">Send an Email</h5>
+                                    <p class="text-center small">Select an email and enter details to send</p>
+                                </div>
+
+                                <form method="post" novalidate>
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        {{ form.gmail_address.label_tag }}
+                                        <select name="{{ form.gmail_address.name }}"
+                                                class="form-select"
+                                                multiple
+                                                {% if form.gmail_address.field.required %}required{% endif %}>
+                                            {% for choice in form.gmail_address.field.queryset %}
+                                                <option value="{{ choice.pk }}"
+                                                    {% if choice.pk in form.gmail_address.value %}selected{% endif %}>
+                                                    {{ choice }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                        {% if form.gmail_address.errors %}
+                                            <div class="text-danger">{{ form.gmail_address.errors }}</div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="mb-3">
+                                        {{ form.subject.label_tag }}
+                                        {{ form.subject }}
+                                        {% if form.subject.errors %}
+                                            <div class="text-danger">{{ form.subject.errors }}</div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="mb-3">
+                                        {{ form.message.label_tag }}
+                                        {{ form.message }}
+                                        {% if form.message.errors %}
+                                            <div class="text-danger">{{ form.message.errors }}</div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="mb-3">
+                                        {{ form.recipient_list.label_tag }}
+                                        {{ form.recipient_list }}
+                                        {% if form.recipient_list.errors %}
+                                            <div class="text-danger">{{ form.recipient_list.errors }}</div>
+                                        {% endif %}
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary w-100">Send Email</button>
+                                </form>
+
+                            </div>
+                        </div>
+
+                        <div class="credits">
+                            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock content %}

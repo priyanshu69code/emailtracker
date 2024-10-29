@@ -2,6 +2,7 @@ from django.forms import ModelForm
 from .models import EmailCampaign
 from django import forms
 from emailservice.models import EmailList
+from mailmanager.models import EmailSetting
 
 
 
@@ -21,20 +22,27 @@ class EmailCampaignForm(ModelForm):
         'id': 'email_list'
     }))
 
+    camping_email = forms.ModelChoiceField(queryset=EmailSetting.objects.all(), widget=forms.Select(attrs={
+        'class': 'form-control',
+        'id': 'camping_email'
+    }))
+
     class Meta:
         model = EmailCampaign
-        fields = ['name', 'subject', 'body', 'email_list']
+        fields = ['name', 'subject', 'body', 'email_list', 'camping_email']
         labels = {
             'name': 'Campaign Name',
             'subject': 'Email Subject',
             'body': 'Email Body',
-            'email_list': 'Email List'
+            'email_list': 'Email List',
+            'camping_email': 'Campine Email'
         }
         help_texts = {
             'name': 'Enter a name for the campaign',
             'subject': 'Enter the subject of the email',
             'body': 'Enter the body of the email',
-            'email_list': 'Select the email list to send the email to'
+            'email_list': 'Select the email list to send the email to',
+            'camping_email': 'Select the email to send the Email From'
         }
         error_messages = {
             'name': {
@@ -48,8 +56,17 @@ class EmailCampaignForm(ModelForm):
             },
             'email_list': {
                 'required': 'Please select an email list'
+            },
+            'camping_email': {
+                'required': 'Please select an email to send the email from'
             }
         }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['camping_email'].queryset = EmailSetting.objects.filter(user=user)
 
 
 class CampaignDeleteForm(forms.Form):

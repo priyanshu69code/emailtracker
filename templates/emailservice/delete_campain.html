@@ -33,7 +33,7 @@
                             {{ form.campine_name }}
                             <p><small>To Delete this Campine Please Write "<strong> {{ campain_name }} </strong>"</small></p>
                             <button type="submit" class="btn btn-danger">Confirm Delete</button>
-                            <a href="{% url 'campain:email_list' %}" class="btn btn-secondary">Cancel</a>
+                            <a href="{% url 'campain:update' object.pk %}" class="btn btn-secondary">Cancel</a>
                         </form>
 
                         <!-- Error message if the name does not match -->
